@@ -74,8 +74,9 @@ class Blockchain {
         this.height = block.height;
         block.hash = SHA256(JSON.stringify(block)).toString();
 
+        if (this.validateChain()) {
             self.chain.push(block);
-
+        }
           return new Promise(async (resolve, reject) => {
             resolve(self);
         });
