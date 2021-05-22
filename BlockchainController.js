@@ -1,8 +1,8 @@
 /**
  *          BlockchainController
  *       (Do not change this code)
- * 
- * This class expose the endpoints that the client applications will use to interact with the 
+ *
+ * This class expose the endpoints that the client applications will use to interact with the
  * Blockchain dataset
  */
 class BlockchainController {
@@ -12,11 +12,13 @@ class BlockchainController {
         this.app = app;
         this.blockchain = blockchainObj;
         // All the endpoints methods needs to be called in the constructor to initialize the route.
+        this.getValidateChain();
         this.getBlockByHeight();
         this.requestOwnership();
         this.submitStar();
         this.getBlockByHash();
         this.getStarsByOwner();
+        this.requestOwnership();
     }
 
     // Enpoint to Get a Block by Height (GET Endpoint)
@@ -33,7 +35,7 @@ class BlockchainController {
             } else {
                 return res.status(404).send("Block Not Found! Review the Parameters!");
             }
-            
+
         });
     }
 
@@ -53,20 +55,23 @@ class BlockchainController {
             }
         });
     }
-    requestValidity() {
+
+    // Endpoint that validates the chain
+    getValidateChain() {
         this.app.get("/blockvalidity", async (req,res)=>{
             try {
+                console.log("Hello Boy");
                 let validblock = this.blockchain.validateChain();
                 if (validblock) {
-                     return res.status(200).json(validblock); 
+                     return res.status(200).json(validblock);
                 }else {
                         return res.status(500).send("Block Not Valid");
                     }
             } catch (err) {
                 return res.status(500).send("No Block on the Chain");
-           } 
+           }
         });
-    
+
 }
     // Endpoint that allow Submit a Star, yu need first to `requestOwnership` to have the message (POST endpoint)
     submitStar() {
@@ -106,7 +111,7 @@ class BlockchainController {
             } else {
                 return res.status(404).send("Block Not Found! Review the Parameters!");
             }
-            
+
         });
     }
 
@@ -128,7 +133,7 @@ class BlockchainController {
             } else {
                 return res.status(500).send("Block Not Found! Review the Parameters!");
             }
-            
+
         });
     }
 
