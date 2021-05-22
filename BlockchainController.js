@@ -53,7 +53,21 @@ class BlockchainController {
             }
         });
     }
-
+    requestValidity() {
+        this.app.get("/blockvalidity", async (req,res)=>{
+            try {
+                let validblock = this.blockchain.validateChain();
+                if (validblock) {
+                     return res.status(200).json(validblock); 
+                }else {
+                        return res.status(500).send("Block Not Valid");
+                    }
+            } catch (err) {
+                return res.status(500).send("No Block on the Chain");
+           } 
+        });
+    
+}
     // Endpoint that allow Submit a Star, yu need first to `requestOwnership` to have the message (POST endpoint)
     submitStar() {
         this.app.post("/submitstar", async (req, res) => {
