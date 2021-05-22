@@ -67,16 +67,16 @@ class Blockchain {
 
         block.height = self.chain.length;
         block.time = new Date().getTime().toString().slice(0, -3);
-        block.hash = SHA256(JSON.stringify(block)).toString();
 
         if (this.height >= 0 ) {
             block.previousBlockHash = self.chain[this.height].hash;
         }
-
         this.height = block.height;
-        self.chain.push(block);
+        block.hash = SHA256(JSON.stringify(block)).toString();
 
-        return new Promise(async (resolve, reject) => {
+            self.chain.push(block);
+
+          return new Promise(async (resolve, reject) => {
             resolve(self);
         });
     }
@@ -143,7 +143,7 @@ class Blockchain {
         let self = this;
 
         return new Promise((resolve, reject) => {
-            let block = self.chain.filter(blockhash => blockhash.hash == hash)[0];
+            let block = self.chain.find(blockhash => blockhash.hash == hash)[0];
             if (block) {
 
                 console.log(block);
